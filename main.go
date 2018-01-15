@@ -1,6 +1,10 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
 
 func main() {
 	r := gin.Default()
@@ -8,6 +12,11 @@ func main() {
 		c.JSON(200, gin.H{
 			"message": "pong",
 		})
+	})
+
+	r.GET("/user/:name", func(c *gin.Conext) {
+		name := r.Param("name")
+		c.String(http.StatusOK, "Hello %s", name)
 	})
 	r.Run(":8081") // listen and serve on 0.0.0.0:8080
 }
