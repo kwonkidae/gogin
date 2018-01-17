@@ -12,7 +12,7 @@ func init() {
 	initArticle()
 	r.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"*"},
-		AllowMethods:     []string{"PUT", "PATCH", "POST", "GET", "DELETE"},
+		AllowMethods:     []string{"PUT", "PATCH", "POST", "GET", "DELETE, OPTIONS"},
 		AllowHeaders:     []string{"*"},
 		AllowCredentials: true,
 	}))
