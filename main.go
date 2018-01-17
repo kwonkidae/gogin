@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -24,5 +25,5 @@ func main() {
 		message := name + " is " + action
 		c.String(http.StatusOK, message)
 	})
-	r.Run(":8081") // listen and serve on 0.0.0.0:8080
+	r.Run("0.0.0.0:8081") // listen and serve on 0.0.0.0:8080
 }
