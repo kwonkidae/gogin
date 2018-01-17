@@ -29,6 +29,7 @@ func FileUpload(c *gin.Context) {
 	// single file
 	file, _ := c.FormFile("file")
 	log.Println(file.Filename)
+	log.Println(file.Size)
 
 	// Upload the file to specific dst.
 	// c.SaveUploadedFile(file, dst)
