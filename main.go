@@ -1,6 +1,7 @@
 package main
 
 import (
+	_ "db"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
