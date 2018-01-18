@@ -4,6 +4,7 @@ import (
 	"db"
 	"image/png"
 	"log"
+	"model"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -19,6 +20,9 @@ func initArticle() {
 func writeArticle(c *gin.Context) {
 	context := db.NewContext()
 	defer context.Close()
+	var article model.Article
+	c.BindJSON(&article)
+	log.Printf("%s, %s\n", article.UserID, article.Article)
 	// _ := context.DbCollection("article")
 	c.JSON(200, gin.H{
 		"message": "pong",
