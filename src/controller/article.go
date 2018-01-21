@@ -2,6 +2,7 @@ package controller
 
 import (
 	"db"
+	"fmt"
 	"image/png"
 	"log"
 	"model"
@@ -9,6 +10,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/nfnt/resize"
+	"gopkg.in/mgo.v2/bson"
 )
 
 func initArticle() {
@@ -22,8 +24,20 @@ func writeArticle(c *gin.Context) {
 	defer context.Close()
 	var article model.Article
 	c.BindJSON(&article)
-	log.Printf("%s, %s\n", article.UserID, article.Article)
-	// _ := context.DbCollection("article")
+	col := context.DbCollection("article")
+	err := article.InsertArticle(col)
+	if err != nil {
+		log.Println(err)
+	}
+
+	testArticle := model.Article{ID: bson.ObjectIdHex("5a634e968e798ccb0302ad6f")}
+	err = testArticle.GetArticle(col)
+	if err != nil {
+		log.Println(err)
+	}
+	testArticle.AddFavorite(col)
+	fmt.Println(testArticle)
+
 	c.JSON(200, gin.H{
 		"message": "pong",
 	})

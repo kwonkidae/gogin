@@ -7,7 +7,7 @@ import (
 
 	"encoding/json"
 
-	"gopkg.in/mgo.v2"
+	mgo "gopkg.in/mgo.v2"
 )
 
 type configuration struct {

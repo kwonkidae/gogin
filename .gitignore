@@ -3,3 +3,5 @@ main
 /src/gopkg.in
 /pkg
 config.json
+/bin
+/gin-bin
