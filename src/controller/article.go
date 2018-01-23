@@ -10,11 +10,16 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/nfnt/resize"
-	"gopkg.in/mgo.v2/bson"
 )
 
 func initArticle() {
-	r.POST("/writeArticle", writeArticle)
+
+	g := r.Group("article")
+	{
+		g.POST("", writeArticle)
+		g.PUT("/addlikecount", addLikeCount)
+		g.PUT("/adddislikecount", addDislikeCount)
+	}
 	r.POST("/fileupload", fileUpload)
 }
 
@@ -29,18 +34,29 @@ func writeArticle(c *gin.Context) {
 	if err != nil {
 		log.Println(err)
 	}
+	c.JSON(200, gin.H{})
+}
 
-	testArticle := model.Article{ID: bson.ObjectIdHex("5a634e968e798ccb0302ad6f")}
-	err = testArticle.GetArticle(col)
-	if err != nil {
-		log.Println(err)
-	}
-	testArticle.AddFavorite(col)
-	fmt.Println(testArticle)
+func addLikeCount(c *gin.Context) {
+	context := db.NewContext()
+	defer context.Close()
+	col := context.DbCollection("article")
+	var article model.Article
+	c.BindJSON(&article)
+	article.AddLikeCount(col)
+	fmt.Println(article)
+	c.JSON(200, gin.H{})
+}
 
-	c.JSON(200, gin.H{
-		"message": "pong",
-	})
+func addDislikeCount(c *gin.Context) {
+	context := db.NewContext()
+	defer context.Close()
+	col := context.DbCollection("article")
+	var article model.Article
+	c.BindJSON(&article)
+	article.AddDislikeCount(col)
+	fmt.Println(article)
+	c.JSON(200, gin.H{})
 }
 
 // FileUpload ...

@@ -10,7 +10,7 @@ import (
 
 // Article is
 type Article struct {
-	ID            bson.ObjectId `bson:"_id,omitempty"`
+	ID            bson.ObjectId `bson:"_id,omitempty" json:"_id"`
 	UserID        string        `bson:"user_id" json:"user_id"`
 	Article       string        `bson:"article"`
 	FavoriteCount int           `bson:"favorite_count"`
@@ -33,9 +33,20 @@ func (a *Article) GetArticle(c *mgo.Collection) error {
 
 // AddFavorite 좋아요 카운트 추가
 //
-func (a *Article) AddFavorite(c *mgo.Collection) error {
+func (a *Article) AddLikeCount(c *mgo.Collection) error {
 	change := mgo.Change{
 		Update:    bson.M{"$inc": bson.M{"favorite_count": 1}},
+		ReturnNew: true,
+	}
+	info, err := c.Find(bson.M{"_id": a.ID}).Apply(change, a)
+	fmt.Println(a, info)
+	return err
+}
+
+// AddDislikeCount 싫어요 카운트 추가
+func (a *Article) AddDislikeCount(c *mgo.Collection) error {
+	change := mgo.Change{
+		Update:    bson.M{"$inc": bson.M{"dislike_count": 1}},
 		ReturnNew: true,
 	}
 	info, err := c.Find(bson.M{"_id": a.ID}).Apply(change, a)
