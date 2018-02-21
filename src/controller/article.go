@@ -7,10 +7,13 @@ import (
 	"log"
 	"model"
 	"os"
+	"sync"
 
 	"github.com/gin-gonic/gin"
 	"github.com/nfnt/resize"
 )
+
+var lock sync.Mutex
 
 func initArticle() {
 
@@ -27,6 +30,10 @@ func initArticle() {
 func writeArticle(c *gin.Context) {
 	context := db.NewContext()
 	defer context.Close()
+
+	lock.Lock()
+	defer lock.Unlock()
+
 	var article model.Article
 	c.BindJSON(&article)
 	col := context.DbCollection("article")
