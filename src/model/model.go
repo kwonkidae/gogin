@@ -13,7 +13,7 @@ type Article struct {
 	ID            bson.ObjectId `bson:"_id,omitempty" json:"_id"`
 	ArticleNo     int           `json:"article_no" bson:"article_no"`
 	UserID        string        `bson:"user_id" json:"user_id"`
-	Article       string        `bson:"article"`
+	Article       string        `bson:"article" json:"article"`
 	FavoriteCount int           `bson:"favorite_count"`
 	DislikeCount  int           `bson:"dislike_count"`
 	CreateAt      time.Time     `bson:"createAt"`
