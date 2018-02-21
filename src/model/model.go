@@ -36,7 +36,7 @@ func (a *Article) InsertArticle(c *mgo.Collection) error {
 
 // GetArticle ...
 func (a *Article) GetArticle(c *mgo.Collection) error {
-	return c.Find(bson.M{"_id": a.ID}).One(a)
+	return c.Find(bson.M{"article_no": a.ArticleNo}).One(a)
 }
 
 // AddLikeCount 좋아요 카운트 추가
