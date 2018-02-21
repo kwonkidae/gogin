@@ -79,7 +79,7 @@ func writeArticle(c *gin.Context) {
 	defer lock.Unlock()
 
 	var article model.Article
-
+	c.BindJSON(&article)
 	col := context.DbCollection("article")
 	err := article.InsertArticle(col)
 	if err != nil {
