@@ -5,3 +5,4 @@ main
 config.json
 /bin
 /gin-bin
+/assets
