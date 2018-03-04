@@ -24,7 +24,7 @@ func initArticle() {
 	g := r.Group("article")
 	{
 		g.POST("/", writeArticle)
-		g.POST("/image/:articleNo", uploadImage)
+		g.POST("/image", uploadImage)
 		g.GET("/", getAllArticle)
 		g.GET("/:articleNo", getArticle)
 		g.PUT("/addlikecount", addLikeCount)
@@ -34,12 +34,16 @@ func initArticle() {
 }
 
 func uploadImage(c *gin.Context) {
-	articleNo := c.Param("articleNo")
-	dst := fmt.Sprintf("assets/article/%s", articleNo)
-	file, _ := c.FormFile("file")
+
+	dst := "assets/article/image"
+	file, err := c.FormFile("file")
+	if err != nil {
+		c.JSON(500, gin.H{"message": err.Error()})
+		return
+	}
 	log.Println(file.Filename)
 
-	err := os.MkdirAll(dst, os.ModePerm)
+	err = os.MkdirAll(dst, os.ModePerm)
 	if err != nil {
 		c.JSON(500, gin.H{"message": err.Error()})
 		return
@@ -51,8 +55,6 @@ func uploadImage(c *gin.Context) {
 		c.JSON(500, gin.H{"message": err.Error()})
 		return
 	}
-
-	fmt.Println(articleNo)
 	c.JSON(200, gin.H{
 		"imageLink": path,
 	})
