@@ -8,6 +8,7 @@ import (
 	"model"
 	"net/http"
 	"os"
+	"path/filepath"
 	"strconv"
 	"sync"
 
@@ -23,12 +24,38 @@ func initArticle() {
 	g := r.Group("article")
 	{
 		g.POST("/", writeArticle)
+		g.POST("/image/:articleNo", uploadImage)
 		g.GET("/", getAllArticle)
 		g.GET("/:articleNo", getArticle)
 		g.PUT("/addlikecount", addLikeCount)
 		g.PUT("/adddislikecount", addDislikeCount)
 	}
 	r.POST("/fileupload", fileUpload)
+}
+
+func uploadImage(c *gin.Context) {
+	articleNo := c.Param("articleNo")
+	dst := fmt.Sprintf("assets/article/%s", articleNo)
+	file, _ := c.FormFile("file")
+	log.Println(file.Filename)
+
+	err := os.MkdirAll(dst, os.ModePerm)
+	if err != nil {
+		c.JSON(500, gin.H{"message": err.Error()})
+		return
+	}
+
+	path := filepath.Join(dst, file.Filename)
+	err = c.SaveUploadedFile(file, path)
+	if err != nil {
+		c.JSON(500, gin.H{"message": err.Error()})
+		return
+	}
+
+	fmt.Println(articleNo)
+	c.JSON(200, gin.H{
+		"imageLink": path,
+	})
 }
 
 func getArticle(c *gin.Context) {

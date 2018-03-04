@@ -22,4 +22,5 @@ func init() {
 
 func _init() {
 	r = gin.Default()
+	r.Static("/assets", "./assets")
 }
