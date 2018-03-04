@@ -8,12 +8,14 @@ import (
 	"model"
 	"net/http"
 	"os"
+	"path"
 	"path/filepath"
 	"strconv"
 	"sync"
 
 	"github.com/gin-gonic/gin"
 	"github.com/nfnt/resize"
+	uuid "github.com/satori/go.uuid"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -34,14 +36,15 @@ func initArticle() {
 }
 
 func uploadImage(c *gin.Context) {
+	u1 := uuid.Must(uuid.NewV4())
 
 	dst := "assets/article/image"
 	file, err := c.FormFile("file")
+	id := c.PostForm("id")
 	if err != nil {
 		c.JSON(500, gin.H{"message": err.Error()})
 		return
 	}
-	log.Println(file.Filename)
 
 	err = os.MkdirAll(dst, os.ModePerm)
 	if err != nil {
@@ -49,7 +52,8 @@ func uploadImage(c *gin.Context) {
 		return
 	}
 
-	path := filepath.Join(dst, file.Filename)
+	ext := path.Ext(file.Filename)
+	path := filepath.Join(dst, fmt.Sprintf("%s_%s%s", id, u1, ext))
 	err = c.SaveUploadedFile(file, path)
 	if err != nil {
 		c.JSON(500, gin.H{"message": err.Error()})
