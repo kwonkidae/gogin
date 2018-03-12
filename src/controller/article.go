@@ -28,6 +28,7 @@ func initArticle() {
 		g.POST("/", writeArticle)
 		g.POST("/image", uploadImage)
 		g.GET("/", getAllArticle)
+		g.PUT("/", updateArticle)
 		g.GET("/:articleNo", getArticle)
 		g.PUT("/addlikecount", addLikeCount)
 		g.PUT("/adddislikecount", addDislikeCount)
@@ -117,7 +118,25 @@ func writeArticle(c *gin.Context) {
 	err := article.InsertArticle(col)
 	if err != nil {
 		log.Println(err)
-		c.JSON(http.StatusInternalServerError, err)
+		c.JSON(http.StatusInternalServerError, err.Error())
+		return
+	}
+	c.JSON(200, gin.H{})
+}
+
+// updateArticle ..
+func updateArticle(c *gin.Context) {
+	context := db.NewContext()
+	defer context.Close()
+
+	var article model.Article
+	c.BindJSON(&article)
+	fmt.Println(article)
+	col := context.DbCollection("article")
+	err := article.UpdateArticle(col)
+	if err != nil {
+		log.Println(err)
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 	c.JSON(200, gin.H{})

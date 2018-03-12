@@ -34,6 +34,12 @@ func (a *Article) InsertArticle(c *mgo.Collection) error {
 	return c.Insert(a)
 }
 
+// UpdateArticle is 글 수정
+func (a *Article) UpdateArticle(c *mgo.Collection) error {
+	return c.Update(bson.M{"article_no": a.ArticleNo},
+		bson.M{"$set": bson.M{"article": a.Article}})
+}
+
 // GetArticle ...
 func (a *Article) GetArticle(c *mgo.Collection) error {
 	return c.Find(bson.M{"article_no": a.ArticleNo}).One(a)
@@ -45,8 +51,7 @@ func (a *Article) AddLikeCount(c *mgo.Collection) error {
 		Update:    bson.M{"$inc": bson.M{"favorite_count": 1}},
 		ReturnNew: true,
 	}
-	info, err := c.Find(bson.M{"_id": a.ID}).Apply(change, a)
-	fmt.Println(a, info)
+	_, err := c.Find(bson.M{"_id": a.ID}).Apply(change, a)
 	return err
 }
 
@@ -56,7 +61,6 @@ func (a *Article) AddDislikeCount(c *mgo.Collection) error {
 		Update:    bson.M{"$inc": bson.M{"dislike_count": 1}},
 		ReturnNew: true,
 	}
-	info, err := c.Find(bson.M{"_id": a.ID}).Apply(change, a)
-	fmt.Println(a, info)
+	_, err := c.Find(bson.M{"_id": a.ID}).Apply(change, a)
 	return err
 }

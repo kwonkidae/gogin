@@ -11,12 +11,6 @@ func init() {
 	_init()
 	r.Use(cors.Default())
 	initArticle()
-	// r.Use(cors.New(cors.Config{
-	// 	AllowOrigins:     []string{"*"},
-	// 	AllowMethods:     []string{"PUT", "PATCH", "POST", "GET", "DELETE, OPTIONS"},
-	// 	AllowHeaders:     []string{"*"},
-	// 	AllowCredentials: true,
-	// }))
 	r.Run("0.0.0.0:8081")
 }
 
