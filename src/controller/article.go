@@ -121,7 +121,7 @@ func writeArticle(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, err.Error())
 		return
 	}
-	c.JSON(200, gin.H{})
+	c.JSON(200, gin.H{"article_no": article.ArticleNo})
 }
 
 // updateArticle ..
@@ -139,7 +139,7 @@ func updateArticle(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(200, gin.H{})
+	c.JSON(200, gin.H{"article_no": article.ArticleNo})
 }
 
 func addLikeCount(c *gin.Context) {
