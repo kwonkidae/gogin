@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	"time"
 
 	mgo "gopkg.in/mgo.v2"
@@ -26,7 +25,6 @@ func (a *Article) InsertArticle(c *mgo.Collection) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(count)
 	a.CreateAt = time.Now()
 	a.ArticleNo = count + 1
 	a.FavoriteCount = 0
