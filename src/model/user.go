@@ -46,7 +46,7 @@ func (u *User) CreateUser(ucol, icol *mgo.Collection) error {
 func (u *User) UpdateUser(c *mgo.Collection) error {
 	fmt.Println(u)
 	return c.Update(bson.M{"user_no": u.UserNo},
-		bson.M{"$set": bson.M{"password": u.Password, "userName": u.UserName,
+		bson.M{"$set": bson.M{"password": u.Password, "token": u.Token, "image": u.Image,
 			"nickName": u.Nickname, "email": u.Email, "updateAt": time.Now()}})
 }
 
