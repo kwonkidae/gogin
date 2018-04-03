@@ -23,7 +23,7 @@ var lock sync.RWMutex
 
 func initArticle() {
 
-	g := r.Group("article")
+	g := r.Group("/api/article")
 	{
 		g.POST("/", writeArticle)
 		g.POST("/image", uploadImage)

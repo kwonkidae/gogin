@@ -10,7 +10,7 @@ import (
 )
 
 func initUser() {
-	g := r.Group("user")
+	g := r.Group("/api/user")
 	{
 		g.POST("/", createUser)
 		g.PUT("/", updateUser)
