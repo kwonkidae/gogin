@@ -20,9 +20,10 @@ type User struct {
 	ID       bson.ObjectId `bson:"_id,omitempty" json:"_id"`
 	UserNo   int           `bson:"user_no" json:"user_no"`
 	Password string        `bson:"password" json:"password"`
-	UserName string        `bson:"userName" json:"userName"`
 	Nickname string        `bson:"nickName" json:"nickName"`
 	Email    string        `bson:"email" json:"email"`
+	Token    string        `bson:"token" json:"token"`
+	Image    string        `bson:"image" json:"image"`
 	CreateAt time.Time     `bson:"createAt" json:"createAt"`
 	UpdateAt time.Time     `bson:"updateAt" json:"updateAt"`
 }
