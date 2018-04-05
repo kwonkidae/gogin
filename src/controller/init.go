@@ -18,19 +18,21 @@ var authMiddleware = &jwt.GinJWTMiddleware{
 	MaxRefresh: time.Hour,
 	Authenticator: func(userId string, password string, c *gin.Context) (string, bool) {
 		fmt.Println(userId, password)
-		if (userId == "admin" && password == "admin") || (userId == "test" && password == "test") {
-			return userId, true
-		}
+		return userId, true
+		// if (userId == "admin" && password == "admin") || (userId == "test" && password == "test") {
+		// 	return userId, true
+		// }
 
-		return userId, false
+		// return userId, false
 	},
 	Authorizator: func(userId string, c *gin.Context) bool {
 		fmt.Println("authorizator")
-		if userId == "admin" {
-			return true
-		}
+		return true
+		// if userId == "admin" {
+		// 	return true
+		// }
 
-		return false
+		// return false
 	},
 	Unauthorized: func(c *gin.Context, code int, message string) {
 		c.JSON(code, gin.H{
@@ -59,7 +61,7 @@ var authMiddleware = &jwt.GinJWTMiddleware{
 func init() {
 	_init()
 	r.Use(cors.Default())
-	r.POST("/login", authMiddleware.LoginHandler)
+	r.POST("/api/login", authMiddleware.LoginHandler)
 	initArticle()
 	initUser()
 	r.Run("0.0.0.0:8081")
