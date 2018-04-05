@@ -61,7 +61,7 @@ var authMiddleware = &jwt.GinJWTMiddleware{
 func init() {
 	_init()
 	r.Use(cors.Default())
-	r.POST("/api/login", authMiddleware.LoginHandler)
+	r.POST("/api/authenticate/", authMiddleware.LoginHandler)
 	initArticle()
 	initUser()
 	r.Run("0.0.0.0:8081")
