@@ -16,8 +16,8 @@ var authMiddleware = &jwt.GinJWTMiddleware{
 	Key:        []byte("secret key"),
 	Timeout:    time.Hour,
 	MaxRefresh: time.Hour,
-	Authenticator: func(userId string, password string, c *gin.Context) (string, bool) {
-		fmt.Println(userId, password)
+	Authenticator: func(username string, password string, c *gin.Context) (string, bool) {
+		fmt.Println(username, password)
 		return userId, true
 		// if (userId == "admin" && password == "admin") || (userId == "test" && password == "test") {
 		// 	return userId, true
